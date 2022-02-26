@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+    production: true,
+    authUrl: 'https://itp-test.vercel.app:8080/'
 };
