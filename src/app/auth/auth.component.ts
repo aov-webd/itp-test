@@ -8,6 +8,9 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AuthComponent implements OnInit {
     islogin = false
+    loginValid = true
+    username = ''
+    password = ''
     constructor(
         private route: ActivatedRoute
     ) {
@@ -16,5 +19,5 @@ export class AuthComponent implements OnInit {
 
     ngOnInit(): void {
     }
-
+    onSubmit() { }
 }

@@ -1,21 +1,21 @@
 <div class="notAuthContainer" *ngIf="!isAuth">
     <section class="requestSection">
-        <h2 class="title">Для использования приложения, пожалуйста, авторизуйтесь</h2>
+        <h2 class="title">To use application please log in or register</h2>
         <div class="authButtons">
             <button [routerLink]="'auth/login'" class="loginButton" mat-raised-button>Login</button>
             <button [routerLink]="'auth/reg'" class="registerButton"
                 mat-raised-button>Register</button>
         </div>
-        <p>* Используется фиктивный сервер авторизации для проверки функционала
-            Frontend-приложения</p>
+        <p>* We are using mock authentication server in order to test frontend application
+            functionality</p>
     </section>
     <section class="benefitsSection">
-        <h3>После этого вам станут доступны следующие преимущества:</h3>
+        <h3>After that you will enjoy the following benefits:</h3>
         <ul>
-            <li>Навигация по сайту и кнопка "Выйти"</li>
-            <li>Просмотр списка пользователей</li>
-            <li>Добавление. удаление и изменение информации о пользователях</li>
-            <li>Поиск по списку пользователей</li>
+            <li>Using navigation menu and exit button</li>
+            <li>After authorization a page with a list of users will be displayed</li>
+            <li>Users can be added, deleted and edited with help of local storage!</li>
+            <li>Searching user in table and lookup error handling</li>
         </ul>
     </section>
 </div>
