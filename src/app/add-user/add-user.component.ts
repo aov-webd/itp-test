@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { UserInfo } from '../types';
 import { UserStorageService } from '../user-storage.service';
-
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
     selector: 'app-add-user',
     templateUrl: './add-user.component.html',
@@ -15,10 +15,20 @@ export class AddUserComponent implements OnInit {
         salary: 0
     }
 
+    userInfoPrev: UserInfo = {
+        username: '',
+        role: '',
+        salary: 0
+    }
+
     constructor(
         private userStorageService: UserStorageService,
-        private dialogRef: MatDialogRef<AddUserComponent>
-    ) { }
+        private dialogRef: MatDialogRef<AddUserComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: { userInfo: UserInfo }
+    ) {
+        this.userInfo = data.userInfo
+        this.userInfoPrev = { ...data.userInfo }
+    }
 
     ngOnInit(): void {
     }
@@ -31,7 +41,7 @@ export class AddUserComponent implements OnInit {
             alert('Fill all fields')
             return
         }
+        this.userStorageService.removeUser(this.userInfoPrev.username)
         this.userStorageService.addUser(this.userInfo)
-        this.dialogRef.close();
     }
 }

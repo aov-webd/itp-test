@@ -22,12 +22,19 @@
 <div class="usersList" *ngIf="isAuth">
     <h4>Users List</h4>
     <button mat-raised-button (click)="addUser()">Add User</button>
-    <div class="userEntry" *ngFor="let user of users">
+    <div class="userEntry" *ngFor="let user of users | keyvalue">
         <p class="fieldName">Username:</p>
-        <p class="fieldValue">{{user.username}}</p>
+        <p class="fieldValue">{{user.key}}</p>
         <p class="fieldName">Role:</p>
-        <p class="fieldValue">{{user.role}}</p>
+        <p class="fieldValue">{{user.value['role']}}</p>
         <p class="fieldName">Salary:</p>
-        <p class="fieldValue">{{user.salary}}</p>
+        <p class="fieldValue">{{user.value['salary']}}</p>
+        <button class="editButton" mat-raised-button (click)="editUser({
+            username:user.key,
+            role:user.value['role'],
+            salary:user.value['salary']})">Edit User</button>
+        <button class="removeButton" mat-raised-button (click)="removeUser(user.key)">Remove
+            User</button>
+
     </div>
 </div>

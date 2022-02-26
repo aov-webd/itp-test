@@ -56,7 +56,9 @@
         background-color: #fff;
 
         .userEntry {
-            display: flex;
+            display    : flex;
+            height     : 80px;
+            align-items: center;
 
             .fieldName {
                 font-weight : 700;
@@ -65,6 +67,14 @@
 
             .fieldValue {
                 margin-right: 40px;
+            }
+
+            .editButton {
+                margin: auto 0 auto auto;
+            }
+
+            .removeButton {
+                margin: auto 0 auto 10px;
             }
         }
     }

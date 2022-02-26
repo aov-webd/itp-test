@@ -14,7 +14,7 @@ export class UserAuthService {
     $host: AxiosInstance
     $authHost: AxiosInstance
 
-    private authorizedSubject = new BehaviorSubject<boolean>(true)
+    private authorizedSubject = new BehaviorSubject<boolean>(false)
     authorized = this.authorizedSubject.asObservable()
 
     constructor(private userStorage: UserStorageService) {

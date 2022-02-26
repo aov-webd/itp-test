@@ -11,21 +11,27 @@ export class UserStorageService {
 
     constructor() {
         if (!localStorage.getItem('users')) {
-            localStorage.setItem('users', JSON.stringify([]))
+            localStorage.setItem('users', JSON.stringify({}))
         }
         this.refreshUsers()
     }
 
     addUser(user: UserInfo) {
-        try {
-            let tmpUsers = JSON.parse(localStorage.getItem('users'))
-            localStorage.setItem('users', JSON.stringify([...tmpUsers, user]))
-        } catch (e) {
-            localStorage.setItem('users', JSON.stringify([user]))
-            console.log(e.message)
-        } finally {
-            this.refreshUsers()
-        }
+        let tmpUsers = JSON.parse(localStorage.getItem('users'))
+        console.log(tmpUsers)
+        if (!tmpUsers) tmpUsers = {}
+        tmpUsers[user.username] = { "role": user.role, "salary": user.salary }
+        // console.log(JSON.stringify(tmpUsers))
+        localStorage.setItem('users', JSON.stringify(tmpUsers))
+        this.refreshUsers()
+    }
+
+    removeUser(username: string) {
+        let tmpUsers = JSON.parse(localStorage.getItem('users'))
+        delete tmpUsers[username]
+        console.log('remove', username)
+        localStorage.setItem('users', JSON.stringify(tmpUsers))
+        this.refreshUsers()
     }
 
     refreshUsers() {

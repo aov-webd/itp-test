@@ -39,6 +39,23 @@ export class HomeComponent implements OnInit {
     }
 
     addUser() {
-        this.matDialog.open(AddUserComponent)
+        this.matDialog.open(AddUserComponent, {
+            data: {
+                userInfo: {
+                    'username': '',
+                    'role': '',
+                    'salary': null,
+                }
+            }
+        })
+    }
+
+    editUser(userInfo: UserInfo) {
+        this.matDialog.open(AddUserComponent, {
+            data: { userInfo: userInfo }
+        })
+    }
+    removeUser(username: string) {
+        this.userStorageService.removeUser(username)
     }
 }
