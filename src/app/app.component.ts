@@ -14,5 +14,7 @@ export class AppComponent implements OnInit {
     ngOnInit(): void {
         this.userAuthService.registration('asdf', 'asdf', 'asdf')
         this.userAuthService.login('asdf', 'asdf')
+        this.userAuthService.check()
+        // this.userAuthService.logout()
     }
 }

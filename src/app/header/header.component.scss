@@ -1,0 +1,22 @@
+:host {
+    height          : 80px;
+    width           : 100vw;
+    background-color: rgb(13, 16, 43);
+    display         : flex;
+
+    h1 {
+        font-family: "Montserrat", system-ui;
+        margin     : auto 20px;
+        cursor     : pointer;
+        color      : #fff;
+    }
+
+    .loginButton,
+    .logoutButton {
+        margin: auto 10px auto auto;
+    }
+
+    .registerButton {
+        margin: auto 10px auto 0;
+    }
+}

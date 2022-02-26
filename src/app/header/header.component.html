@@ -1,1 +1,6 @@
-<p>header works!</p>
+<h1 [routerLink]="''">ITP Test</h1>
+<button [routerLink]="'auth/login'" *ngIf="!isAuth" class="loginButton"
+    mat-raised-button>Login</button>
+<button [routerLink]="'auth/reg'" *ngIf="!isAuth" class="registerButton"
+    mat-raised-button>Register</button>
+<button *ngIf="isAuth" class="logoutButton" mat-raised-button>Log Out</button>
