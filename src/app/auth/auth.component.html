@@ -1,9 +1,13 @@
-<mat-card>
+<mat-card *ngIf="!isAuth">
     <mat-card-content>
         <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
-            <h2>Log In</h2>
-            <mat-error *ngIf="!loginValid">
+            <h2 *ngIf="isLogin">Log In</h2>
+            <h2 *ngIf="!isLogin">Registration</h2>
+            <mat-error *ngIf="!loginValid && isLogin">
                 The username and password were not recognized
+            </mat-error>
+            <mat-error *ngIf="!registerValid && !isLogin">
+                User already registered
             </mat-error>
             <mat-form-field>
                 <input matInput placeholder="Email" [(ngModel)]="username" name="username" required>
@@ -18,7 +22,17 @@
                     Please provide a valid password
                 </mat-error>
             </mat-form-field>
-            <button mat-raised-button [disabled]="!loginForm.form.valid">Login</button>
+            <button *ngIf="isLogin" mat-raised-button
+                [disabled]="!loginForm.form.valid">Login</button>
+            <button *ngIf="!isLogin" mat-raised-button
+                [disabled]="!loginForm.form.valid">Register</button>
+            <section *ngIf="isLogin" (click)="setIsLogin(false)">Do not have account? <a
+                    [routerLink]="'/auth/reg'">Register</a>
+            </section>
+            <section *ngIf="!isLogin" (click)="setIsLogin(true)">Already have an account? <a
+                    [routerLink]="'/auth/login'">Log
+                    In</a></section>
         </form>
     </mat-card-content>
 </mat-card>
+<h3 *ngIf="isAuth">You have successfully logged in</h3>

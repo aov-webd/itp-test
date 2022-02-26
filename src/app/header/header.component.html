@@ -3,4 +3,4 @@
     mat-raised-button>Login</button>
 <button [routerLink]="'auth/reg'" *ngIf="!isAuth" class="registerButton"
     mat-raised-button>Register</button>
-<button *ngIf="isAuth" class="logoutButton" mat-raised-button>Log Out</button>
+<button *ngIf="isAuth" class="logoutButton" mat-raised-button (click)="logout()">Log Out</button>

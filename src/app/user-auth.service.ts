@@ -3,6 +3,8 @@ import axios, { AxiosInstance } from 'axios';
 import { environment } from 'src/environments/environment';
 import jwt_decode from "jwt-decode"
 import { BehaviorSubject } from 'rxjs';
+import { AuthResult } from './types';
+import { UserStorageService } from './user-storage.service';
 
 
 @Injectable({
@@ -15,7 +17,7 @@ export class UserAuthService {
     private authorizedSubject = new BehaviorSubject<boolean>(false)
     authorized = this.authorizedSubject.asObservable()
 
-    constructor() {
+    constructor(private userStorage: UserStorageService) {
         this.$host = axios.create({
             baseURL: environment.authUrl
         })
@@ -29,39 +31,39 @@ export class UserAuthService {
         this.$authHost.interceptors.request.use(authInterceptor)
     }
 
-    async registration(name: string, email: string, password: string) {
+    async registration(name: string, email: string, password: string): Promise<AuthResult> {
         try {
-            const { data } = await this.$host.post('api/v1/users', { email, password })
-            localStorage.setItem('token', data.token)
-            return jwt_decode(data.token)
+            const { data } = await this.$host.post('api/v1/users', { name, email, password })
+            return { error: false, message: '', token: '' }
         } catch (e) {
-            console.log(e)
+            return { error: true, message: e.message, token: '' }
         }
     }
 
-    async login(email: string, password: string) {
+    async login(email: string, password: string): Promise<AuthResult> {
         try {
             const { data } = await this.$host.post('api/v1/auth', { email, password })
             localStorage.setItem('token', data.token)
-            return jwt_decode(data.token)
+            this.authorizedSubject.next(true)
+            return { error: false, message: '', token: jwt_decode(data.token) }
         } catch (e) {
-            console.log(e)
+            return { error: true, message: e.message, token: '' }
         }
     }
 
-    async logout() {
+    logout() {
         localStorage.removeItem('token')
         this.authorizedSubject.next(false)
     }
 
     async check() {
-        try {
-            await this.$authHost.get('api/v1/users')
-                .catch(e => console.log(e))
-        } catch (e) {
-            console.log(e)
-        }
+        await this.$authHost.get('api/v1/users')
+            .catch(e => console.log(e))
         // localStorage.setItem('token', data.token)
         // return jwt_decode(data.token)
+    }
+
+    setAuthorized(value: boolean) {
+        this.authorizedSubject.next(value)
     }
 }

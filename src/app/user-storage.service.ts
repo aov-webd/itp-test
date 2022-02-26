@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { UserInfo } from './auth/types';
+import { UserInfo } from './types';
 
 @Injectable({
     providedIn: 'root'
