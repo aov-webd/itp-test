@@ -5,5 +5,6 @@ export type AuthResult = {
 }
 export type UserInfo = {
     username: string,
-    password: string
+    role: string,
+    salary: number
 }

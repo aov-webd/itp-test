@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { AddUserComponent } from '../add-user/add-user.component';
+import { UserInfo } from '../types';
 import { UserAuthService } from '../user-auth.service';
+import { UserStorageService } from '../user-storage.service';
 
 @Component({
     selector: 'app-home',
@@ -8,10 +12,16 @@ import { UserAuthService } from '../user-auth.service';
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
     isAuthSubscription: Subscription
     isAuth = false
-    constructor(private userAuthService: UserAuthService) {
+
+    usersSubscription: Subscription
+    users: UserInfo[]
+
+    constructor(
+        private userAuthService: UserAuthService,
+        private userStorageService: UserStorageService,
+        private matDialog: MatDialog) {
     }
 
     ngOnInit(): void {
@@ -20,6 +30,15 @@ export class HomeComponent implements OnInit {
                 this.isAuth = data
             }
         })
+
+        this.usersSubscription = this.userStorageService.users.subscribe({
+            next: (data) => {
+                this.users = data
+            }
+        })
     }
 
+    addUser() {
+        this.matDialog.open(AddUserComponent)
+    }
 }

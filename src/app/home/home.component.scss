@@ -43,4 +43,28 @@
             padding         : 30px;
         }
     }
+
+    .usersList {
+        box-shadow      : 0 0 20px rgb(85, 85, 85);
+        width           : 80%;
+        display         : flex;
+        flex-direction  : column;
+        margin          : auto;
+        box-sizing      : border-box;
+        padding         : 20px;
+        background-color: #fff;
+
+        .userEntry {
+            display: flex;
+
+            .fieldName {
+                font-weight : 700;
+                margin-right: 10px;
+            }
+
+            .fieldValue {
+                margin-right: 40px;
+            }
+        }
+    }
 }

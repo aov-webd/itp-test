@@ -19,13 +19,16 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AddUserComponent } from './add-user/add-user.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
     declarations: [
         AppComponent,
         HeaderComponent,
         HomeComponent,
-        AuthComponent
+        AuthComponent,
+        AddUserComponent
     ],
     imports: [
         BrowserModule,
@@ -42,6 +45,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         MatSlideToggleModule,
         MatSelectModule,
         MatOptionModule,
+        MatDialogModule,
         BrowserAnimationsModule,
     ],
     providers: [],
