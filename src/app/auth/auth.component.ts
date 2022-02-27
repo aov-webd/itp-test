@@ -103,5 +103,4 @@ export class AuthComponent implements OnInit {
     setIsLogin(value: boolean) {
         this.isLogin = value
     }
-
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { MatDialog } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AddUserComponent } from '../add-user/add-user.component';
 import { UserInfo } from '../types';
 import { UserAuthService } from '../user-auth.service';
@@ -16,12 +18,17 @@ export class HomeComponent implements OnInit {
     isAuth = false
 
     usersSubscription: Subscription
-    users: UserInfo[]
+
+    users: Observable<any>;
+    user: Observable<any>;
 
     constructor(
         private userAuthService: UserAuthService,
         private userStorageService: UserStorageService,
-        private matDialog: MatDialog) {
+        private matDialog: MatDialog,
+        private afAuth: AngularFireAuth, private firestore: AngularFirestore) {
+        this.user = null;
+        this.users = null;
     }
 
     ngOnInit(): void {
@@ -30,6 +37,13 @@ export class HomeComponent implements OnInit {
                 this.isAuth = data
             }
         })
+        this.afAuth.authState.subscribe(user => {
+            if (user) {
+                let emailLower = user.email.toLowerCase();
+                this.users = this.firestore.collection('users').valueChanges();
+                this.user = this.firestore.collection('users').doc(emailLower).valueChanges();
+            }
+        });
 
         // this.usersSubscription = this.userStorageService.users.subscribe({
         //     next: (data) => {

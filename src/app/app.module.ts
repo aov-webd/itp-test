@@ -27,7 +27,7 @@ import { environment } from '../environments/environment';
 // import { provideDatabase, getDatabase } from '@angular/fire/database';
 // import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { MatListModule } from '@angular/material/list';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
@@ -51,6 +51,7 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
         MatInputModule,
         MatCardModule,
         MatMenuModule,
+        MatListModule,
         MatIconModule,
         MatButtonModule,
         MatTableModule,
