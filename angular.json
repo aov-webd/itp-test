@@ -105,6 +105,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "itp-test:build:production",
+            "firebaseProject": "itp-test-b30c3",
+            "firebaseHostingSite": "itp-test-b30c3"
+          }
         }
       }
     }

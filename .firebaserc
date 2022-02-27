@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "itp-test-b30c3": {
+      "hosting": {
+        "itp-test": [
+          "itp-test-b30c3"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "itp-test-b30c3"
+  }
+}

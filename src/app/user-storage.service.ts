@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { UserInfo } from './types';
+import { Firestore } from '@angular/fire/firestore';
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +10,9 @@ export class UserStorageService {
     private usersSubject = new BehaviorSubject<UserInfo[]>([]);
     users = this.usersSubject.asObservable()
 
-    constructor() {
+    constructor(
+        private store: Firestore
+    ) {
         if (!localStorage.getItem('users')) {
             localStorage.setItem('users', JSON.stringify({}))
         }
