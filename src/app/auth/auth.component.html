@@ -1,38 +1,38 @@
 <mat-card *ngIf="!isAuth">
-    <mat-card-content>
-        <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
-            <h2 *ngIf="isLogin">Log In</h2>
-            <h2 *ngIf="!isLogin">Registration</h2>
-            <mat-error *ngIf="!loginValid && isLogin">
-                The username and password were not recognized
-            </mat-error>
-            <mat-error *ngIf="!registerValid && !isLogin">
-                User already registered
-            </mat-error>
-            <mat-form-field>
-                <input matInput placeholder="Email" [(ngModel)]="username" name="username" required>
-                <mat-error>
-                    Please provide a valid email address
-                </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput type="password" placeholder="Password" [(ngModel)]="password"
-                    name="password" required>
-                <mat-error>
-                    Please provide a valid password
-                </mat-error>
-            </mat-form-field>
-            <button *ngIf="isLogin" mat-raised-button
-                [disabled]="!loginForm.form.valid">Login</button>
-            <button *ngIf="!isLogin" mat-raised-button
-                [disabled]="!loginForm.form.valid">Register</button>
-            <section *ngIf="isLogin" (click)="setIsLogin(false)">Do not have account? <a
-                    [routerLink]="'/auth/reg'">Register</a>
-            </section>
-            <section *ngIf="!isLogin" (click)="setIsLogin(true)">Already have an account? <a
-                    [routerLink]="'/auth/login'">Log
-                    In</a></section>
+    <mat-card class="form-card">
+        <form [formGroup]="signupForm" (ngSubmit)="signup()">
+            <p>
+                <mat-form-field appearance="outline">
+                    <mat-label>Full Name</mat-label>
+                    <input autocomplete="off" formControlName="displayName" type="text" matInput
+                        placeholder="Display Name">
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input formControlName="email" type="email" matInput placeholder="Email">
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input autocomplete="off" formControlName="password" type="password" matInput
+                        placeholder="Password">
+                </mat-form-field>
+            </p>
+            <div *ngIf="firebaseErrorMessage != ''" class="error-style">
+                <span>{{ firebaseErrorMessage }}</span>
+            </div>
+
+            <button mat-raised-button color="primary">Signup</button>
         </form>
-    </mat-card-content>
+    </mat-card>
+
+    <div class="progressIndicator" [style.display]="isProgressVisible ? 'inline' : 'none' ">
+        <mat-progress-spinner class=" example-margin" color="primary" mode="indeterminate">
+        </mat-progress-spinner>
+    </div>
+
 </mat-card>
 <h3 *ngIf="isAuth">You have successfully logged in</h3>
