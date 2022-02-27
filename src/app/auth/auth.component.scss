@@ -2,7 +2,9 @@
     display        : flex;
     align-items    : center;
     justify-content: center;
-    flex           : 1 0 0;
+    flex-direction : column;
+    height         : 100%;
+    flex           : 1;
 
     mat-card {
         min-width : 300px;

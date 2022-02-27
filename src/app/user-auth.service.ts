@@ -31,8 +31,10 @@ export class UserAuthService {
         this.afAuth.onAuthStateChanged((user) => {
             if (user) {
                 this.userLoggedIn = true
+                this.authorizedSubject.next(true)
             } else {
                 this.userLoggedIn = false
+                this.authorizedSubject.next(false)
             }
         })
 
@@ -113,7 +115,7 @@ export class UserAuthService {
     async logoutUser(): Promise<void> {
         try {
             await this.afAuth.signOut();
-            this.router.navigate(['/home']); // when we log the user out, navigate them to home
+            this.router.navigate(['']); // when we log the user out, navigate them to home
         } catch (error) {
             console.log('Auth Service: logout error...');
             console.log('error code', error.code);

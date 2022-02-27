@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UserInfo } from './types';
-import { Firestore, collectionData, collection } from '@angular/fire/firestore';
+// import { Firestore, collectionData, collection } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
     providedIn: 'root'
@@ -11,13 +12,13 @@ export class UserStorageService {
     users: Observable<UserInfo[]>
 
     constructor(
-        private firestore: Firestore
+        private firestore: AngularFirestore
     ) {
         if (!localStorage.getItem('users')) {
             localStorage.setItem('users', JSON.stringify({}))
         }
         this.refreshUsers()
-        const usersCollection = collection(firestore, 'users');
+        // const usersCollection = collection(firestore, 'users');
         // this.users = collectionData(usersCollection);
     }
 

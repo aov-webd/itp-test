@@ -31,11 +31,11 @@ export class HomeComponent implements OnInit {
             }
         })
 
-        this.usersSubscription = this.userStorageService.users.subscribe({
-            next: (data) => {
-                this.users = data
-            }
-        })
+        // this.usersSubscription = this.userStorageService.users.subscribe({
+        //     next: (data) => {
+        //         this.users = data
+        //     }
+        // })
     }
 
     addUser() {
