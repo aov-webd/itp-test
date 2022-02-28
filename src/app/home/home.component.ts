@@ -42,7 +42,6 @@ export class HomeComponent implements OnInit {
                 this.firestore.collection<UserInfo>('users').valueChanges().subscribe({
                     next: (data) => {
                         this.usersData = data
-                        console.log(this.usersData)
                     }
                 });
             }

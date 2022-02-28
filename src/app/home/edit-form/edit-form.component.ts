@@ -31,6 +31,8 @@ export class EditFormComponent implements OnInit {
         }
     }
     submit() {
+        this.form.controls['email_lower'].enable()
+
         if (this.newEntry) {
             this.firestore.collection('users').doc(this.form.value.email_lower).set(this.form.value)
         } else {

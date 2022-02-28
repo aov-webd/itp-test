@@ -21,8 +21,8 @@
     <h4>Users List</h4>
     <button mat-raised-button (click)="onAdd()">Add User</button>
     <div class="usersList" *ngIf="(usersData)">
-        <input type="email" class="form-control" id="search-text" aria-describedby="search-text"
-            [(ngModel)]="searchText" placeholder="Enter text to search" autofocus>
+        <input type="search" class="searchBar" id="search-text" [(ngModel)]="searchText"
+            placeholder="Search in email_lower" autofocus>
         <mat-list *ngFor="let user of usersData | filter:searchText">
             <mat-list-item *ngFor="let field of user | keyvalue">
                 <p class="key">{{field.key}}:</p>
