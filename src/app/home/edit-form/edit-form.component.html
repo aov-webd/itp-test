@@ -1,0 +1,8 @@
+<form [formGroup]="form" (ngSubmit)="submit()" type="">
+    <mat-form-field *ngFor="let field of form.controls | keyvalue" appearance="outline">
+        <mat-label>{{field.key}}</mat-label>
+        <input autocomplete="off" formControlName={{field.key}} matInput
+            placeholder={{field.value}}>
+    </mat-form-field>
+    <button type="submit" mat-raised-button color="primary" [disabled]="!form.valid">Save</button>
+</form>
