@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
 
     users: Observable<UserInfo[]>;
     usersData: UserInfo[]
-
+    searchText: string
     constructor(
         private userAuthService: UserAuthService,
         private matDialog: MatDialog,
@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit {
         private firestore: AngularFirestore
     ) {
         this.users = null;
+        this.searchText = ''
     }
 
     ngOnInit(): void {
@@ -38,9 +39,11 @@ export class HomeComponent implements OnInit {
         })
         this.afAuth.authState.subscribe(user => {
             if (user) {
-                this.users = this.firestore.collection<UserInfo>('users').valueChanges((data: UserInfo[]) => {
-                    this.usersData = data
-                    console.log(this.usersData)
+                this.firestore.collection<UserInfo>('users').valueChanges().subscribe({
+                    next: (data) => {
+                        this.usersData = data
+                        console.log(this.usersData)
+                    }
                 });
             }
         });
@@ -60,12 +63,10 @@ export class HomeComponent implements OnInit {
             }
         })
     }
-    onEdit(userInfo) {
+    onEdit(userInfo: UserInfo) {
         this.matDialog.open(EditFormComponent, { data: { userInfo } })
     }
-    onRemove(user) {
-        console.log(user.email_lower)
+    onRemove(user: UserInfo) {
         this.firestore.collection('users').doc(user.email_lower).delete()
-
     }
 }

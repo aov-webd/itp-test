@@ -30,6 +30,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { EditFormComponent } from './home/edit-form/edit-form.component';
+import { FilterPipe } from './filter.pipe';
 
 @NgModule({
     declarations: [
@@ -37,7 +38,8 @@ import { EditFormComponent } from './home/edit-form/edit-form.component';
         HeaderComponent,
         HomeComponent,
         AuthComponent,
-        EditFormComponent
+        EditFormComponent,
+        FilterPipe,
     ],
     imports: [
         BrowserModule,

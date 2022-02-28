@@ -18,7 +18,6 @@ export class EditFormComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: { userInfo: UserInfo, newEntry: boolean },
         private dialogRef: MatDialogRef<EditFormComponent>
     ) {
-        console.log(data.userInfo)
         this.newEntry = data.newEntry
         this.form = new FormGroup({
             'accountType': new FormControl(data.userInfo.accountType, [Validators.required]),
@@ -32,7 +31,6 @@ export class EditFormComponent implements OnInit {
         }
     }
     submit() {
-        console.log(this.form.value.email_lower)
         if (this.newEntry) {
             this.firestore.collection('users').doc(this.form.value.email_lower).set(this.form.value)
         } else {
