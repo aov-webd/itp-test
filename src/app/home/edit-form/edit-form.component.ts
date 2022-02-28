@@ -12,7 +12,6 @@ import { UserInfo } from 'src/app/types';
 })
 export class EditFormComponent implements OnInit {
     form: FormGroup;
-    users: Observable<any>;
     newEntry: boolean
     constructor(
         private firestore: AngularFirestore,
@@ -28,7 +27,9 @@ export class EditFormComponent implements OnInit {
             'email': new FormControl(data.userInfo.email, [Validators.required, Validators.email]),
             'email_lower': new FormControl(data.userInfo.email_lower, [Validators.required, Validators.email]),
         });
-        // this.users = this.firestore.collection('users')
+        if (!this.newEntry) {
+            this.form.controls['email_lower'].disable()
+        }
     }
     submit() {
         console.log(this.form.value.email_lower)
