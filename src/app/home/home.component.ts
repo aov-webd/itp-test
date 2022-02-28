@@ -54,9 +54,7 @@ export class HomeComponent implements OnInit {
                 userInfo: {
                     accountType: '',
                     displayName: '',
-                    displayName_lower: '',
                     email: '',
-                    email_lower: ''
                 },
                 newEntry: true
             }
@@ -66,6 +64,6 @@ export class HomeComponent implements OnInit {
         this.matDialog.open(EditFormComponent, { data: { userInfo } })
     }
     onRemove(user: UserInfo) {
-        this.firestore.collection('users').doc(user.email_lower).delete()
+        this.firestore.collection('users').doc(user.email).delete()
     }
 }

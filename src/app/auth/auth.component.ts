@@ -43,7 +43,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.signupForm = new FormGroup({
             'displayName': new FormControl('', Validators.required),
-            'email': new FormControl('', [Validators.required, Validators.email]),
+            'email': new FormControl('', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
             'password': new FormControl('', Validators.required)
         });
 
@@ -61,16 +61,8 @@ export class AuthComponent implements OnInit, OnDestroy {
         if (this.signupForm.invalid)
             return;
 
-        this.userAuthService.signupUser(this.signupForm.value).then((result) => {
-            if (result == null)
-                this.router.navigate(['']);
-            else if (result.isValid == false)
-                this.firebaseErrorMessage = result.message;
-
-            this.isProgressVisible = false;
-        }).catch(() => {
-            this.isProgressVisible = false;
-        });
+        this.userAuthService.signupUser(this.signupForm.value)
+        this.isProgressVisible = false;
     }
 
     loginUser() {

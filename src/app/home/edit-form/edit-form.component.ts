@@ -20,28 +20,29 @@ export class EditFormComponent implements OnInit {
     ) {
         this.newEntry = data.newEntry
         this.form = new FormGroup({
+            'email': new FormControl(data.userInfo.email, [Validators.required, Validators.email]),
             'accountType': new FormControl(data.userInfo.accountType, [Validators.required]),
             'displayName': new FormControl(data.userInfo.displayName, [Validators.required]),
-            'displayName_lower': new FormControl(data.userInfo.displayName_lower, [Validators.required]),
-            'email': new FormControl(data.userInfo.email, [Validators.required, Validators.email]),
-            'email_lower': new FormControl(data.userInfo.email_lower, [Validators.required, Validators.email]),
         });
         if (!this.newEntry) {
-            this.form.controls['email_lower'].disable()
+            this.form.controls['email'].disable()
         }
     }
     submit() {
-        this.form.controls['email_lower'].enable()
+        this.form.controls['email'].enable()
 
         if (this.newEntry) {
-            this.firestore.collection('users').doc(this.form.value.email_lower).set(this.form.value)
+            try {
+                this.firestore.collection('users').doc(this.form.value.email).set(this.form.value)
+            } catch (e) {
+                console.log(e.message)
+            }
         } else {
-            this.firestore.collection('users').doc(this.form.value.email_lower).update(this.form.value)
+            this.firestore.collection('users').doc(this.form.value.email).update(this.form.value)
         }
         this.dialogRef.close();
     }
 
     ngOnInit(): void {
     }
-
 }

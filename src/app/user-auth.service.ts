@@ -37,9 +37,8 @@ export class UserAuthService {
     async signupUser(user: any): Promise<any> {
         try {
             await this.afAuth.createUserWithEmailAndPassword(user.email, user.password);
-        } catch (error) {
-            if (error.code)
-                return { isValid: false, message: error.message };
+        } catch (e) {
+            console.log(e.message)
         }
     }
 

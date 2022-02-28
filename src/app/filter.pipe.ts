@@ -6,7 +6,7 @@ import { UserInfo } from './types';
 })
 export class FilterPipe implements PipeTransform {
 
-    transform(items: UserInfo[], searchText: string): any[] {
+    transform(items: UserInfo[], searchText: string, searchField: string): any[] {
         if (!items) {
             return [];
         }
@@ -16,7 +16,7 @@ export class FilterPipe implements PipeTransform {
         searchText = searchText.toLocaleLowerCase();
 
         return items.filter(it => {
-            return it.email_lower.toLocaleLowerCase().includes(searchText);
+            return it[searchField].toLocaleLowerCase().includes(searchText);
         });
     }
 }
