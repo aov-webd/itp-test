@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
 
     usersSubscription: Subscription
 
-    users: Observable<any>;
+    users: Observable<UserInfo[]>;
     usersData: UserInfo[]
 
     constructor(
@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
         })
         this.afAuth.authState.subscribe(user => {
             if (user) {
-                this.users = this.firestore.collection('users').valueChanges((data: UserInfo[]) => {
+                this.users = this.firestore.collection<UserInfo>('users').valueChanges((data: UserInfo[]) => {
                     this.usersData = data
                     console.log(this.usersData)
                 });
