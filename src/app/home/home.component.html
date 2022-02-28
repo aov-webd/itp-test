@@ -6,45 +6,26 @@
             <button [routerLink]="'auth/reg'" class="registerButton"
                 mat-raised-button>Register</button>
         </div>
-        <!-- <p>* We are using mock authentication server in order to test frontend application
-            functionality</p> -->
     </section>
     <section class="benefitsSection">
         <h3>After that you will enjoy the following benefits:</h3>
         <ul>
             <li>Using navigation menu and exit button</li>
             <li>After authorization a page with a list of users will be displayed</li>
-            <li>Users can be added, deleted and edited with help of local storage!</li>
+            <li>Users can be added, deleted and edited</li>
             <li>Searching user in table and lookup error handling</li>
         </ul>
     </section>
 </div>
 <div class="usersList" *ngIf="isAuth">
     <h4>Users List</h4>
-    <button mat-raised-button (click)="addUser()">Add User</button>
-    <!-- <div class="userEntry" *ngFor="let user of users | keyvalue">
-        <p class="fieldName">Username:</p>
-        <p class="fieldValue">{{user.key}}</p>
-        <p class="fieldName">Role:</p>
-        <p class="fieldValue">{{user.value['role']}}</p>
-        <p class="fieldName">Salary:</p>
-        <p class="fieldValue">{{user.value['salary']}}</p>
-        <button class="editButton" mat-raised-button (click)="editUser({
-            username:user.key,
-            role:user.value['role'],
-            salary:user.value['salary']})">Edit User</button>
-        <button class="removeButton" mat-raised-button (click)="removeUser(user.key)">Remove
-            User</button>
-    </div> -->
-    <div *ngIf="(user | async)">
+    <button mat-raised-button (click)="onAdd()">Add User</button>
+    <div *ngIf="(users | async)">
         <mat-list *ngFor="let user of users | async">
-            <mat-list-item>Account Type: {{ (user)?.accountType }}</mat-list-item>
-            <mat-list-item>Display Name: {{ (user)?.displayName }}</mat-list-item>
-            <mat-list-item>Email: {{ (user)?.email }}</mat-list-item>
-            <!-- <mat-list-item>Email Verification Status: {{ (afAuth.user | async)?.emailVerified }} -->
-            <!-- </mat-list-item> -->
+            <mat-list-item *ngFor="let field of user | keyvalue">{{field.key}}:{{field.value}}
+            </mat-list-item>
+            <button (click)="onEdit(user)" mat-raised-button>Edit</button>
+            <button (click)="onRemove(user)" color="warn" mat-raised-button>Remove</button>
         </mat-list>
     </div>
-
-
 </div>

@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthResult } from '../types';
 import { UserAuthService } from '../user-auth.service';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
@@ -12,15 +11,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
     templateUrl: './auth.component.html',
     styleUrls: ['./auth.component.scss']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
     routeSubscription: Subscription;
     isLogin = false
-    loginValid = true
-    registerValid = true
-    username = ''
-    password = ''
-    result: AuthResult
-    errMessage: string = ''
     isAuth = false
     isAuthSubscription: Subscription
 
@@ -33,7 +26,6 @@ export class AuthComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private userAuthService: UserAuthService,
-        // private afAuth: AngularFireAuth
     ) {
         this.routeSubscription = route.params.subscribe(() => {
             this.isLogin = this.route.snapshot.params['param'] === 'login';
@@ -41,15 +33,14 @@ export class AuthComponent implements OnInit {
         this.isAuthSubscription = this.userAuthService.authorized.subscribe({
             next: (data) => {
                 this.isAuth = data
+                if (data) {
+                    this.router.navigate(['']);
+                }
             }
         })
     }
 
     ngOnInit(): void {
-        if (this.userAuthService.userLoggedIn) {
-            this.router.navigate(['']);
-        }
-
         this.signupForm = new FormGroup({
             'displayName': new FormControl('', Validators.required),
             'email': new FormControl('', [Validators.required, Validators.email]),
@@ -65,10 +56,11 @@ export class AuthComponent implements OnInit {
     }
 
     signup() {
+        this.isProgressVisible = true;
+
         if (this.signupForm.invalid)
             return;
 
-        this.isProgressVisible = true;
         this.userAuthService.signupUser(this.signupForm.value).then((result) => {
             if (result == null)
                 this.router.navigate(['']);
@@ -102,5 +94,9 @@ export class AuthComponent implements OnInit {
 
     setIsLogin(value: boolean) {
         this.isLogin = value
+    }
+
+    ngOnDestroy(): void {
+        this.routeSubscription.unsubscribe()
     }
 }

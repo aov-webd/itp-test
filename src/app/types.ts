@@ -4,7 +4,9 @@ export type AuthResult = {
     token: string
 }
 export type UserInfo = {
-    username: string,
-    role: string,
-    salary: number
+    accountType: string,
+    displayName: string,
+    displayName_lower: string,
+    email: string,
+    email_lower: string
 }

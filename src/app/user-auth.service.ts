@@ -4,7 +4,6 @@ import { environment } from 'src/environments/environment';
 import jwt_decode from "jwt-decode"
 import { BehaviorSubject } from 'rxjs';
 import { AuthResult } from './types';
-import { UserStorageService } from './user-storage.service';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
@@ -20,35 +19,30 @@ export class UserAuthService {
     private authorizedSubject = new BehaviorSubject<boolean>(false)
     authorized = this.authorizedSubject.asObservable()
 
-    userLoggedIn: boolean
-
     constructor(
         private router: Router,
         private afAuth: AngularFireAuth,
         private afs: AngularFirestore
     ) {
-        this.userLoggedIn = false
         this.afAuth.onAuthStateChanged((user) => {
             if (user) {
-                this.userLoggedIn = true
                 this.authorizedSubject.next(true)
             } else {
-                this.userLoggedIn = false
                 this.authorizedSubject.next(false)
             }
         })
 
-        this.$host = axios.create({
-            baseURL: environment.authUrl
-        })
-        this.$authHost = axios.create({
-            baseURL: environment.authUrl
-        })
-        const authInterceptor = (config) => {
-            config.headers.authorization = `${localStorage.getItem('token')}`
-            return config
-        }
-        this.$authHost.interceptors.request.use(authInterceptor)
+        // this.$host = axios.create({
+        //     baseURL: environment.authUrl
+        // })
+        // this.$authHost = axios.create({
+        //     baseURL: environment.authUrl
+        // })
+        // const authInterceptor = (config) => {
+        //     config.headers.authorization = `${localStorage.getItem('token')}`
+        //     return config
+        // }
+        // this.$authHost.interceptors.request.use(authInterceptor)
     }
 
     async loginUser(email: string, password: string): Promise<any> {
@@ -138,39 +132,39 @@ export class UserAuthService {
         return this.afAuth.currentUser;                                 // returns user object for logged-in users, otherwise returns null
     }
 
-    async registration(name: string, email: string, password: string): Promise<AuthResult> {
-        try {
-            const { data } = await this.$host.post('api/v1/users', { name, email, password })
-            return { error: false, message: '', token: '' }
-        } catch (e) {
-            return { error: true, message: e.message, token: '' }
-        }
-    }
+    // async registration(name: string, email: string, password: string): Promise<AuthResult> {
+    //     try {
+    //         const { data } = await this.$host.post('api/v1/users', { name, email, password })
+    //         return { error: false, message: '', token: '' }
+    //     } catch (e) {
+    //         return { error: true, message: e.message, token: '' }
+    //     }
+    // }
 
-    async login(email: string, password: string): Promise<AuthResult> {
-        try {
-            const { data } = await this.$host.post('api/v1/auth', { email, password })
-            localStorage.setItem('token', data.token)
-            this.authorizedSubject.next(true)
-            return { error: false, message: '', token: jwt_decode(data.token) }
-        } catch (e) {
-            return { error: true, message: e.message, token: '' }
-        }
-    }
+    // async login(email: string, password: string): Promise<AuthResult> {
+    //     try {
+    //         const { data } = await this.$host.post('api/v1/auth', { email, password })
+    //         localStorage.setItem('token', data.token)
+    //         this.authorizedSubject.next(true)
+    //         return { error: false, message: '', token: jwt_decode(data.token) }
+    //     } catch (e) {
+    //         return { error: true, message: e.message, token: '' }
+    //     }
+    // }
 
-    logout() {
-        localStorage.removeItem('token')
-        this.authorizedSubject.next(false)
-    }
+    // logout() {
+    //     localStorage.removeItem('token')
+    //     this.authorizedSubject.next(false)
+    // }
 
-    async check() {
-        await this.$authHost.get('api/v1/users')
-            .catch(e => console.log(e))
-        // localStorage.setItem('token', data.token)
-        // return jwt_decode(data.token)
-    }
+    // async check() {
+    //     await this.$authHost.get('api/v1/users')
+    //         .catch(e => console.log(e))
+    //     // localStorage.setItem('token', data.token)
+    //     // return jwt_decode(data.token)
+    // }
 
-    setAuthorized(value: boolean) {
-        this.authorizedSubject.next(value)
+    getAuthorized() {
+        return this.authorizedSubject.getValue()
     }
 }
