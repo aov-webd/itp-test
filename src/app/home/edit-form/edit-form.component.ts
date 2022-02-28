@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { UserInfo } from 'src/app/types';
 
@@ -13,11 +13,14 @@ import { UserInfo } from 'src/app/types';
 export class EditFormComponent implements OnInit {
     form: FormGroup;
     users: Observable<any>;
-
+    newEntry: boolean
     constructor(
         private firestore: AngularFirestore,
-        @Inject(MAT_DIALOG_DATA) public data: { userInfo: UserInfo }
+        @Inject(MAT_DIALOG_DATA) public data: { userInfo: UserInfo, newEntry: boolean },
+        private dialogRef: MatDialogRef<EditFormComponent>
     ) {
+        console.log(data.userInfo)
+        this.newEntry = data.newEntry
         this.form = new FormGroup({
             'accountType': new FormControl(data.userInfo.accountType, [Validators.required]),
             'displayName': new FormControl(data.userInfo.displayName, [Validators.required]),
@@ -29,7 +32,12 @@ export class EditFormComponent implements OnInit {
     }
     submit() {
         console.log(this.form.value.email_lower)
-        this.firestore.collection('users').doc(this.form.value.email_lower).update(this.form.value)
+        if (this.newEntry) {
+            this.firestore.collection('users').doc(this.form.value.email_lower).set(this.form.value)
+        } else {
+            this.firestore.collection('users').doc(this.form.value.email_lower).update(this.form.value)
+        }
+        this.dialogRef.close();
     }
 
     ngOnInit(): void {

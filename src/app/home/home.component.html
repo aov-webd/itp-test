@@ -17,15 +17,19 @@
         </ul>
     </section>
 </div>
-<div class="usersList" *ngIf="isAuth">
+<div class="usersListConatiner" *ngIf="isAuth">
     <h4>Users List</h4>
     <button mat-raised-button (click)="onAdd()">Add User</button>
-    <div *ngIf="(users | async)">
+    <div class="usersList" *ngIf="(users | async)">
         <mat-list *ngFor="let user of users | async">
-            <mat-list-item *ngFor="let field of user | keyvalue">{{field.key}}:{{field.value}}
+            <mat-list-item *ngFor="let field of user | keyvalue">
+                <p class="key">{{field.key}}:</p>
+                {{field.value}}
             </mat-list-item>
-            <button (click)="onEdit(user)" mat-raised-button>Edit</button>
-            <button (click)="onRemove(user)" color="warn" mat-raised-button>Remove</button>
+            <div [style.display]="'flex'">
+                <button (click)="onEdit(user)" mat-raised-button>Edit</button>
+                <button (click)="onRemove(user)" color="warn" mat-raised-button>Remove</button>
+            </div>
         </mat-list>
     </div>
 </div>

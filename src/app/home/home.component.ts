@@ -47,11 +47,25 @@ export class HomeComponent implements OnInit {
     }
 
     onAdd() {
+        this.matDialog.open(EditFormComponent, {
+            data: {
+                userInfo: {
+                    accountType: '',
+                    displayName: '',
+                    displayName_lower: '',
+                    email: '',
+                    email_lower: ''
+                },
+                newEntry: true
+            }
+        })
     }
     onEdit(userInfo) {
-        console.log(userInfo)
         this.matDialog.open(EditFormComponent, { data: { userInfo } })
     }
     onRemove(user) {
+        console.log(user.email_lower)
+        this.firestore.collection('users').doc(user.email_lower).delete()
+
     }
 }
